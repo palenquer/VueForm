@@ -44,7 +44,6 @@
       />
       <FormulateInput
         type="submit"
-        @click="registerUser"
         :disabled="isLoading"
         :label="isLoading ? 'Loading...' : 'Submit'"
       />
@@ -64,19 +63,24 @@ export default {
     };
   },
   methods: {
-    registerUser: function() {
-      console.log({
-        name: this.nameField,
-        email: this.emailField,
-        password: this.passwordField,
-        confirmPassword: this.confirmPasswordField,
-        terms: this.termsField,
-        id: Date.now(),
-      });
+  
+    resetForm: function() {
+      this.nameField = "";
+      this.emailField = "";
+      this.passwordField = "";
+      this.confirmPasswordField = "";
+      this.termsField = false;
     },
     async submitHandler(data) {
-      await this.$axios.post("/my/api", data);
-      alert(`Thank you, ${data.name}`);
+      await this.axios.post("http://localhost:3333/users", data)
+      .then(response => {
+        console.log(response);
+        this.resetForm();
+        alert(`Thank you, ${data.name}`);
+      })
+      .catch (errors => {
+        console.log(errors);
+      })
     },
   },
 };
