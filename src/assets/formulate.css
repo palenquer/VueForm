@@ -284,6 +284,7 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  float: right;
 }
 .formulate-input[data-classification="button"] button::-moz-placeholder {
   color: #a8a8a8;

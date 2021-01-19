@@ -7,6 +7,8 @@
         label="Name"
         type="text"
         validation="required"
+        placeholder="your name..."
+        v-model="nameField"
       />
       <FormulateInput
         name="email"
@@ -14,12 +16,15 @@
         type="email"
         validation="required|email"
         placeholder="test@example.com"
+        v-model="emailField"
       />
       <FormulateInput
-        label="New password"
+        label="Password"
         type="password"
         name="password"
         validation="required"
+        placeholder="*******"
+        v-model="passwordField"
       />
       <FormulateInput
         label="Confirm password"
@@ -27,15 +32,19 @@
         name="password_confirm"
         validation="required|confirm"
         validation-name="Password confirmation"
+        placeholder="*******"
+        v-model="confirmPasswordField"
       />
       <FormulateInput
         type="checkbox"
         label="I accept the terms of service?"
         name="terms"
         validation="accepted"
+        v-model="termsField"
       />
       <FormulateInput
         type="submit"
+        @click="registerUser"
         :disabled="isLoading"
         :label="isLoading ? 'Loading...' : 'Submit'"
       />
@@ -45,7 +54,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      nameField: "",
+      emailField: "",
+      passwordField: "",
+      confirmPasswordField: "",
+      termsField: false,
+    };
+  },
   methods: {
+    registerUser: function() {
+      console.log({
+        name: this.nameField,
+        email: this.emailField,
+        password: this.passwordField,
+        confirmPassword: this.confirmPasswordField,
+        terms: this.termsField,
+        id: Date.now(),
+      });
+    },
     async submitHandler(data) {
       await this.$axios.post("/my/api", data);
       alert(`Thank you, ${data.name}`);
@@ -70,11 +98,11 @@ export default {
   justify-content: center;
 }
 fieldset {
-  border: 1px solid #ccc;
+  border: 1px solid #42b883;
   border-radius: 1rem;
   max-width: 400px;
   width: 100%;
-  padding: 1.5rem;
+  padding: 2rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -84,7 +112,6 @@ legend {
   font-weight: bold;
   text-align: center;
   padding: 0rem 1rem;
-  color: #41b883;
+  color: #42b883;
 }
-
 </style>
